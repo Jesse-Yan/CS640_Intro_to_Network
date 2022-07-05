@@ -1,0 +1,69 @@
+Q2:
+Prediction:
+The latency is about 80.106 + 20.425 + 60.430 = 160.961ms(RTT), and the throughput is about min(18.943, 38.179, 28.467) = 18.943Mbps.
+
+Real:
+After measurement, the real latency on average is 160.798ms(RTT) and real throughput is 18.636 Mbps.
+
+Explanation:
+The path between h1 and h4 is a line of links L1, L2, L3. So our predicted latency is sum of latency of these links. 
+Our predicted throughout is equal to the part of the path with minimun throughout. As we can see, 
+the actual results are very close to our predictions, with only very small difference.
+
+
+Q3:
+
+Two pairs:
+
+Prediction:
+H1-H4:	18.943/2 = 9.4715Mbps	160.961ms(RTT)
+H8-H10:	18.943/2 = 9.4715Mbps	160.961ms(RTT)
+
+Real:
+H1-H4:	13.220Mbps	160.874ms(RTT)
+H8-H10:	5.753Mbps	160.872ms(RTT)
+
+Three pairs:
+
+Prediction:
+H1-H4:	18.943/3 = 6.3143Mbps	160.961ms(RTT)
+H7-H9:	18.943/3 = 6.3143Mbps	160.961ms(RTT)
+H8-H10:	18.943/3 = 6.3143Mbps	160.961ms(RTT)
+
+Real:
+H1-H4:	3.497Mbps	160.724ms(RTT)
+H7-H9:	11.048Mbps	160.743ms(RTT)
+H8-H10:	4.483Mbps	160.755ms(RTT)
+
+Explanation:
+As we can see, the actual results of latency is very close to the prediction. The hosts share the 
+same path, so they have the same latency which is about 160ms as calculated above. 
+For we only have 2 or 3 pairs of hosts, the changes of queuing delay can be ignored. 
+However, as we expect different hosts to share the same throughput, there's actually some clear 
+difference. It may because of the implementation of the algorithms, and also may because of the 
+delay in starting the client programs in different hosts as the one that starts early often obtains 
+the best throughput(H7-H9 here). We can also notice that the sum of the throughput is still near to the throughput 
+of the path as calculated above.
+
+
+Q4:
+
+Expected: 
+H1-H4:	18.943Mbps	160.961ms(RTT)
+H5-H6:	19.090Mbps	20.425 + 10.421 + 10.103 = 40.949ms(RTT)
+
+Real:
+H1-H4:	16.468Mbps	161.029ms(RTT)
+H5-H6:	21.347Mbps	40.949ms(RTT)
+
+Explanation:
+As we can see, the actual results of latency is very close to the prediction. Similar to calculations above, 
+the latency is near to sum of latencies of the links on the path. For we only have 2 pairs of hosts, the 
+changes of queuing delay can be ignored.
+H1-H4 connects through L1(18.943Mbps), L2(38.179Mbps), L3(28.467Mbps); H5-H6 connects through L4(23.901Mbps), L2(38.179Mbps), L5(23.889Mbps). 
+The path shares link L2, where the multiplexing happen, and thus the throughputs obtained by H1-H4 and H5-H6 will be added up to 38.179Mbps. 
+As we can see, the actual throughput of H5-H6 is 21.347Mbps, whereas the throughputs of L4(23.901Mbps) and L5(23.889Mbps) are greater than this value. 
+Thus, H5-H6(21.347Mbps) is the throughput obtained in L2 for H5-H6. The actual throughput of H1-H4 is 16.468 Mbps, smaller than 
+L1(18.943Mbps) and L3(28.467Mbps). Thus, H1-H4(16.468Mbps) is the throughput obtained in L2 for H1-H4. Adding H1-H4(16.468Mbps) and H5-H6(21.347Mbps) up
+obtains 37.815Mbps, which is close to the throughput of L2. The predicted value is off about -2 and +2 Mbps on H1-H4 and H5-H6 since we simply
+divide the throughput of L2 by 2, but the throughput, in fact, might not be shared equally between H1-H4 and H5-H6.
